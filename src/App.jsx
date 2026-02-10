@@ -1,8 +1,9 @@
 import { useState } from "react";
-import items from "./mock.json";
+import mockItems from "./mock.json";
 import FoodList from "./components/FoodList";
 
 function App() {
+  const [items, setItems] = useState(mockItems);
   const [order, setOrder] = useState("createdAt");
   const [keyword, setKeyword] = useState("");
 
@@ -10,6 +11,11 @@ function App() {
   const searchItems = sortedItems.filter(
     (item) => item.title.includes(keyword) || item.content.includes(keyword),
   );
+
+  const handleDelete = (id) => {
+    const deletedItems = items.filter((item) => item.id !== id);
+    setItems(deletedItems);
+  };
 
   return (
     <div>
@@ -22,7 +28,7 @@ function App() {
         <button onClick={() => setOrder("createdAt")}>최신순</button>
         <button onClick={() => setOrder("calorie")}>칼로리순</button>
       </div>
-      <FoodList items={searchItems} />
+      <FoodList items={searchItems} handleDelete={handleDelete} />
     </div>
   );
 }
