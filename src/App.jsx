@@ -5,6 +5,7 @@ import Modal from "./components/Modal";
 import CreateFoodForm from "./components/CreateFoodForm";
 import Layout from "./components/Layout";
 import Input from "./components/Input";
+import Button from "./components/Button";
 import styles from "./App.module.css";
 
 function App() {
@@ -57,10 +58,20 @@ function App() {
       <Layout>
         <div className={styles.header}>
           <Input keyword={keyword} setKeyword={setKeyword} />
-          <div>
-            <button onClick={() => setOrder("createdAt")}>최신순</button>
-            <button onClick={() => setOrder("calorie")}>칼로리순</button>
-            <button onClick={() => setIsCreateFoodOpen(true)}>추가하기</button>
+          <div className={styles.buttons}>
+            <button
+              className={`${styles.filter} ${order === "createdAt" ? styles.active : ""}`}
+              onClick={() => setOrder("createdAt")}
+            >
+              최신순
+            </button>
+            <button
+              className={`${styles.filter} ${order === "calorie" ? styles.active : ""}`}
+              onClick={() => setOrder("calorie")}
+            >
+              칼로리순
+            </button>
+            <Button onClick={() => setIsCreateFoodOpen(true)}>추가하기</Button>
             <Modal
               isOpen={isCreateFoodOpen}
               onClose={() => setIsCreateFoodOpen(false)}

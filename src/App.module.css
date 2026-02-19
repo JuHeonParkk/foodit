@@ -4,3 +4,24 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.filter {
+  font-size: 16px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.filter.active {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #2c9631;
+  font-weight: 600;
+}

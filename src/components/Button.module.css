@@ -1,0 +1,30 @@
+.button {
+  font-size: 18px;
+  font-weight: 600;
+  background-color: transparent;
+}
+
+.primary {
+  padding: 13px 28px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2c9631;
+  color: #ffffff;
+}
+
+.outlinePrimary,
+.outlineSecondary {
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.outlinePrimary {
+  border: 1px solid #c8dad4;
+  color: #7f8e89;
+}
+
+.outlineSecondary {
+  border: 1px solid #e5cdcd;
+  color: #b18181;
+}

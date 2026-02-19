@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "./Modal";
 import EditFoodForm from "./EditFoodForm";
+import Button from "./Button";
 
 export default function FoodListItem({ item, handleDelete, onUpdate }) {
   const { imgUrl, title, calorie, content } = item;
@@ -17,11 +18,15 @@ export default function FoodListItem({ item, handleDelete, onUpdate }) {
       <div>{title}</div>
       <div>{calorie}kcal</div>
       <div>{content}</div>
-      <button onClick={() => setIsEditModalOpen(true)}>수정</button>
+      <Button variant="outlinePrimary" onClick={() => setIsEditModalOpen(true)}>
+        수정
+      </Button>
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
         <EditFoodForm food={item} onSubmit={handleEditFormSubmit} />
       </Modal>
-      <button onClick={() => handleDelete(item.id)}>삭제</button>
+      <Button variant="outlineSecondary" onClick={() => handleDelete(item.id)}>
+        삭제
+      </Button>
     </div>
   );
 }
