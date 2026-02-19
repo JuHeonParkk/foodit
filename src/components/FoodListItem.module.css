@@ -1,0 +1,57 @@
+.itemContent {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 12px;
+  padding-right: 30px;
+  flex: 1;
+}
+
+.img {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 15px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #6d7372;
+}
+
+.textTitle {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.calorie {
+  padding: 6px 8px;
+  font-size: 15px;
+  color: #4caf50;
+  border-radius: 6px;
+  background-color: #eaf3ea;
+}
+
+.textFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
