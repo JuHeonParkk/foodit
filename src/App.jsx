@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "./utils/axios";
-import mockItems from "./mock.json";
 import FoodList from "./components/FoodList";
 import Modal from "./components/Modal";
 import CreateFoodForm from "./components/CreateFoodForm";
@@ -9,25 +8,48 @@ import Input from "./components/Input";
 import Button from "./components/Button";
 import styles from "./App.module.css";
 
+const LIMIT = 10;
+
 function App() {
-  const [items, setItems] = useState(mockItems);
+  const [items, setItems] = useState([]);
   const [order, setOrder] = useState("createdAt");
   const [keyword, setKeyword] = useState("");
   const [isCreateFoodOpen, setIsCreateFoodOpen] = useState(false);
+  const [nextCursor, setNextCursor] = useState(null);
 
-  const handleLoad = async () => {
-    const response = await axios.get("/foods");
-    const { foods } = response.data;
+  const handleLoad = async (orderParams) => {
+    const response = await axios.get("/foods", {
+      params: {
+        order: orderParams,
+        limit: LIMIT,
+      },
+    });
+    const { foods, paging } = response.data;
     setItems(foods);
+    setNextCursor(paging.nextCursor);
+  };
+
+  const handleLoadMore = async () => {
+    const response = await axios.get("/foods", {
+      params: {
+        order,
+        limit: LIMIT,
+        cursor: nextCursor,
+      },
+    });
+    const { foods, paging } = response.data;
+    setItems((prevItems) => [...prevItems, ...foods]);
+    setNextCursor(paging.nextCursor);
   };
 
   useEffect(() => {
-    handleLoad();
-  }, []);
+    handleLoad(order);
+  }, [order]);
 
-  const sortedItems = items.sort((a, b) => b[order] - a[order]);
-  const searchItems = sortedItems.filter(
-    (item) => item.title.includes(keyword) || item.content.includes(keyword),
+  const sortedItems = [...items].sort((a, b) => b[order] - a[order]);
+  const filteredItems = sortedItems.filter(
+    (item) =>
+      item.title.includes(keyword) || item.description.includes(keyword),
   );
 
   const handleDelete = (id) => {
@@ -93,10 +115,11 @@ function App() {
         </div>
 
         <FoodList
-          items={searchItems}
+          items={filteredItems}
           handleDelete={handleDelete}
           onUpdate={handleUpdate}
         />
+        {nextCursor && <Button onClick={handleLoadMore}>불러오기</Button>}
       </Layout>
     </div>
   );
