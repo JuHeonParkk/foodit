@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "./utils/axios";
 import mockItems from "./mock.json";
 import FoodList from "./components/FoodList";
 import Modal from "./components/Modal";
@@ -13,6 +14,16 @@ function App() {
   const [order, setOrder] = useState("createdAt");
   const [keyword, setKeyword] = useState("");
   const [isCreateFoodOpen, setIsCreateFoodOpen] = useState(false);
+
+  const handleLoad = async () => {
+    const response = await axios.get("/foods");
+    const { foods } = response.data;
+    setItems(foods);
+  };
+
+  useEffect(() => {
+    handleLoad();
+  }, []);
 
   const sortedItems = items.sort((a, b) => b[order] - a[order]);
   const searchItems = sortedItems.filter(
