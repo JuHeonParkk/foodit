@@ -17,9 +17,10 @@ function App() {
   const [isCreateFoodOpen, setIsCreateFoodOpen] = useState(false);
   const [nextCursor, setNextCursor] = useState(null);
 
-  const handleLoad = async (orderParams) => {
+  const handleLoad = async (orderParams, keyword) => {
     const response = await axios.get("/foods", {
       params: {
+        keyword,
         order: orderParams,
         limit: LIMIT,
       },
@@ -33,6 +34,7 @@ function App() {
     const response = await axios.get("/foods", {
       params: {
         order,
+        keyword,
         limit: LIMIT,
         cursor: nextCursor,
       },
@@ -43,8 +45,8 @@ function App() {
   };
 
   useEffect(() => {
-    handleLoad(order);
-  }, [order]);
+    handleLoad(order, keyword);
+  }, [order, keyword]);
 
   const sortedItems = [...items].sort((a, b) => b[order] - a[order]);
   const filteredItems = sortedItems.filter(
