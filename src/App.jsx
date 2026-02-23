@@ -7,6 +7,7 @@ import Layout from "./components/Layout";
 import Input from "./components/Input";
 import Button from "./components/Button";
 import styles from "./App.module.css";
+import moreBtnIcon from "./assets/moreview_green.png";
 
 const LIMIT = 10;
 
@@ -15,7 +16,7 @@ function App() {
   const [order, setOrder] = useState("createdAt");
   const [keyword, setKeyword] = useState("");
   const [isCreateFoodOpen, setIsCreateFoodOpen] = useState(false);
-  const [nextCursor, setNextCursor] = useState(null);
+  const [cursor, setCursor] = useState();
 
   const handleLoad = async (orderParams, searchParams) => {
     const response = await axios.get("/foods", {
@@ -27,7 +28,7 @@ function App() {
     });
     const { foods, paging } = response.data;
     setItems(foods);
-    setNextCursor(paging.nextCursor);
+    setCursor(paging.nextCursor);
   };
 
   const handleLoadMore = async () => {
@@ -36,12 +37,12 @@ function App() {
         order,
         search: keyword,
         limit: LIMIT,
-        cursor: nextCursor,
+        cursor,
       },
     });
     const { foods, paging } = response.data;
     setItems((prevItems) => [...prevItems, ...foods]);
-    setNextCursor(paging.nextCursor);
+    setCursor(paging.nextCursor);
   };
 
   useEffect(() => {
@@ -115,7 +116,12 @@ function App() {
           handleDelete={handleDelete}
           onUpdate={handleUpdate}
         />
-        {nextCursor && <Button onClick={handleLoadMore}>불러오기</Button>}
+        {cursor && (
+          <Button onClick={handleLoadMore} variant="loadMore">
+            더보기
+            <img src={moreBtnIcon} alt="moreBtn" />
+          </Button>
+        )}
       </Layout>
     </div>
   );
