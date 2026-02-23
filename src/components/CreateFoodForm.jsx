@@ -1,6 +1,10 @@
 import React, { useRef, useEffect } from "react";
+import FileInput from "./FileInput";
 
-export default function CreateFoodForm({ onSubmit }) {
+export default function CreateFoodForm({
+  initialValue = { title: "", calorie: 0, content: "" },
+  onSubmit,
+}) {
   const submit = (formData) => {
     const title = formData.get("title");
     const calorie = formData.get("calorie");
@@ -23,6 +27,7 @@ export default function CreateFoodForm({ onSubmit }) {
 
   return (
     <form action={submit}>
+      <FileInput name="imgUrl" initialPreview={initialValue.imgUrl} />
       <input
         type="text"
         name="title"
