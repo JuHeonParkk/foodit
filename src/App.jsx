@@ -17,16 +17,29 @@ function App() {
   const [keyword, setKeyword] = useState("");
   const [isCreateFoodOpen, setIsCreateFoodOpen] = useState(false);
   const [cursor, setCursor] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleLoad = async (orderParams, searchParams) => {
-    const response = await axios.get("/foods", {
-      params: {
-        order: orderParams,
-        search: searchParams,
-        limit: LIMIT,
-      },
-    });
-    const { foods, paging } = response.data;
+    let data = null;
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get("/foods", {
+        params: {
+          order: orderParams,
+          search: searchParams,
+          limit: LIMIT,
+        },
+      });
+      data = response.data;
+    } catch (err) {
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+    if (!data) return;
+    const { foods, paging } = data;
     setItems(foods);
     setCursor(paging.nextCursor);
   };
@@ -111,11 +124,16 @@ function App() {
           onUpdate={handleUpdate}
         />
         {cursor && (
-          <Button onClick={handleLoadMore} variant="loadMore">
+          <Button
+            disabled={isLoading}
+            onClick={handleLoadMore}
+            variant="loadMore"
+          >
             더보기
             <img src={moreBtnIcon} alt="moreBtn" />
           </Button>
         )}
+        {error && <div className={styles.error}>{error.message}</div>}
       </Layout>
     </div>
   );
