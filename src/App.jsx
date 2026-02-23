@@ -49,38 +49,32 @@ function App() {
     handleLoad(order, keyword);
   }, [order, keyword]);
 
-  const handleDelete = (id) => {
-    const deletedItems = items.filter((item) => item.id !== id);
-    setItems(deletedItems);
-  };
-
-  const handleCreate = (data) => {
-    const newItem = {
-      id: items.length + 1,
-      ...data,
-      createdAt: new Date().valueOf(),
-      updatedAt: new Date().valueOf(),
-    };
-    console.log(newItem);
-    setItems([newItem, ...items]);
+  // 추가(post)
+  const handleCreate = async (data) => {
+    const response = await axios.post("/foods", data);
+    const { food } = response.data;
+    setItems((prevItems) => [food, ...prevItems]);
     setIsCreateFoodOpen(false);
   };
 
-  const handleUpdate = (id, data) => {
-    const findIndex = items.findIndex((item) => item.id === id);
+  // 수정(patch)
+  const handleUpdate = async (id, data) => {
+    const response = await axios.patch(`/foods/${id}`, data);
+    const { food } = response.data;
+    setItems((prevItems) => {
+      const targetIndex = prevItems.findIndex((item) => item.id === id);
+      return [
+        ...prevItems.slice(0, targetIndex),
+        food,
+        ...prevItems.slice(targetIndex + 1),
+      ];
+    });
+  };
 
-    const newItem = {
-      ...items[findIndex],
-      ...data,
-      updatedAt: new Date().valueOf(),
-    };
-
-    const newItems = [
-      ...items.slice(0, findIndex),
-      newItem,
-      ...items.slice(findIndex + 1),
-    ];
-    setItems(newItems);
+  // 삭제(delete)
+  const handleDelete = async (id) => {
+    await axios.delete(`/foods/${id}`);
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
   return (
