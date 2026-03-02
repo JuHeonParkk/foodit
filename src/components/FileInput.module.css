@@ -1,0 +1,23 @@
+.container {
+  position: relative;
+}
+
+.preview {
+  width: 150px;
+  height: 150px;
+}
+
+.close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}

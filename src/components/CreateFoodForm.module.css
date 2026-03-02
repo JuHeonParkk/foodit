@@ -1,0 +1,24 @@
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inputGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}

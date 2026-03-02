@@ -1,9 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import FileInput from "./FileInput";
+import Button from "./Button";
+import styles from "./CreateFoodForm.module.css";
 
 export default function CreateFoodForm({
   initialValue = { title: "", calorie: 0, content: "" },
   onSubmit,
+  isCreateFoodOpen,
 }) {
   const submit = (formData) => {
     const title = formData.get("title");
@@ -26,17 +29,34 @@ export default function CreateFoodForm({
   }, []);
 
   return (
-    <form action={submit}>
-      <FileInput name="imgUrl" initialPreview={initialValue.imgUrl} />
-      <input
-        type="text"
-        name="title"
-        placeholder="이름을 입력하세요."
-        ref={inputRef}
-      />
-      <input type="number" name="calorie" placeholder="KCal" />
-      <textarea name="content" placeholder="설명을 입력하세요." />
-      <button>작성완료</button>
-    </form>
+    <div>
+      <div className={styles.header}>
+        <h2>칼로리 기록하기</h2>
+        <Button variant="close" onClick={!isCreateFoodOpen}>
+          X
+        </Button>
+      </div>
+
+      <form action={submit} className={styles.form}>
+        <FileInput name="imgUrl" initialPreview={initialValue.imgUrl} />
+        <div className={styles.content}>
+          <div className={styles.inputGroup}>
+            <input
+              type="text"
+              name="title"
+              placeholder="이름을 입력하세요."
+              ref={inputRef}
+            />
+            <input type="number" name="calorie" placeholder="KCal" />
+          </div>
+          <textarea
+            className={styles.textarea}
+            name="content"
+            placeholder="설명을 입력하세요."
+          />
+          <Button className={styles.button}>작성완료</Button>
+        </div>
+      </form>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import placeholderImage from "../assets/placeholder.png";
 import close from "../assets/icon_close_gray_r.png";
+import styles from "./FileInput.module.css";
 
 export default function FileInput({ name, initialPreview }) {
   const [file, setFile] = useState(); // 파일 상태 관리
@@ -20,6 +21,12 @@ export default function FileInput({ name, initialPreview }) {
     }
   };
 
+  const handleClick = () => {
+    if (inputRef.current) {
+      inputRef.current.click(); // 파일 입력 필드 클릭하여 파일 선택 창 열기
+    }
+  };
+
   // 파일이 변경될 때마다 미리보기 이미지 URL을 생성하고 관리하는 효과
   // useEffect를 사용하여 특정 값이 변경될 때마다 콜백함수 실행
   // 즉 file이 변경될 때마다 미리보기 이미지 URL을 생성하고, 이전 URL은 해제하여 메모리 누수 방지
@@ -34,12 +41,23 @@ export default function FileInput({ name, initialPreview }) {
   }, [file]);
 
   return (
-    <>
-      <input name={name} type="file" onChange={handleChange} ref={inputRef} />
-      <img src={preview || placeholderImage} alt="preview" />
-      <button type="button" onClick={handleClear}>
-        <img src={close} />
+    <div className={styles.container}>
+      <input
+        name={name}
+        type="file"
+        onChange={handleChange}
+        ref={inputRef}
+        hidden
+      />
+      <img
+        src={preview || placeholderImage}
+        alt="preview"
+        onClick={handleClick}
+        className={styles.preview}
+      />
+      <button type="button" onClick={handleClear} className={styles.close}>
+        <img src={close} className={styles.icon} />
       </button>
-    </>
+    </div>
   );
 }

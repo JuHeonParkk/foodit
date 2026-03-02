@@ -43,3 +43,9 @@
   background-color: #f2f6f2;
   color: #4caf50;
 }
+
+.close {
+  color: #a9abb7;
+  background-color: transparent;
+  border: none;
+}
